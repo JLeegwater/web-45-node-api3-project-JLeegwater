@@ -1,17 +1,35 @@
+const Users = require("../users/users-model");
+
 function logger(req, res, next) {
-  // DO YOUR MAGIC
+  console.log(req.method);
+  console.log(req.url);
+  console.log(Date.now());
+  next();
 }
 
 function validateUserId(req, res, next) {
-  // DO YOUR MAGIC
+  const { id } = req.params;
+  Users.getById(id).then((possibleUser) => {
+    if (possibleUser) {
+      req.user = possibleUser;
+      next();
+    } else next({ message: "User not found", status: 404 });
+  });
 }
 
 function validateUser(req, res, next) {
-  // DO YOUR MAGIC
+  req.body.name
+    ? next()
+    : next({ message: "missing required name field", status: 404 });
 }
 
 function validatePost(req, res, next) {
-  // DO YOUR MAGIC
+  req.body.text
+    ? next()
+    : next({ message: "missing required text field", status: 400 });
+  console.log("hello");
+  next();
 }
 
 // do not forget to expose these functions to other modules
+module.exports = { logger, validateUserId, validateUser, validatePost };
