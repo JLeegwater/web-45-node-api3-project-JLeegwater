@@ -20,15 +20,13 @@ function validateUserId(req, res, next) {
 function validateUser(req, res, next) {
   req.body.name
     ? next()
-    : next({ message: "missing required name field", status: 404 });
+    : next({ message: "missing required name field", status: 400 });
 }
 
 function validatePost(req, res, next) {
   req.body.text
     ? next()
     : next({ message: "missing required text field", status: 400 });
-  console.log("hello");
-  next();
 }
 
 // do not forget to expose these functions to other modules
